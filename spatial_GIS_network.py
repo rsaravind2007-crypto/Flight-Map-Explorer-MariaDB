@@ -21,7 +21,7 @@ def create_connection():
             password=st.secrets["db_password"],
             host=st.secrets["db_host"],
             port=st.secrets["db_port"],
-            database="openflights"
+            database="openflights1"
         )
         return conn
 
@@ -262,3 +262,4 @@ with col2:
 # -------------------------------
 st.markdown("---")
 st.markdown("**Author** — ARAVIND R S , Presented For MariaDB hackathon")
+
