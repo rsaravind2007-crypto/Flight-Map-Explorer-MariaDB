@@ -1,5 +1,5 @@
 streamlit
-mysql.connector
 pandas
+numpy
 pydeck
-math
+mysql-connector-python
