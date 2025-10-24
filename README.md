@@ -15,18 +15,18 @@ An interactive web application that lets users **upload airport datasets**, **in
 
 ---
 ## Technology Stack Used
--Programming Language: Python
--Web Framework / Frontend: Streamlit
--Backend: MariaDB with GIS / Spatial features (POINT, SPATIAL INDEX)
--Data Handling: Pandas (CSV parsing, dataframe operations)
--Mapping & Visualization: PyDeck (Visualize airports and routes on maps)
+-  Programming Language: Python
+-  Web Framework / Frontend: Streamlit
+-  Backend: MariaDB with GIS / Spatial features (POINT, SPATIAL INDEX)
+-  Data Handling: Pandas (CSV parsing, dataframe operations)
+-  Mapping & Visualization: PyDeck (Visualize airports and routes on maps)
 ---
 ## How to Run / Implement This Project
 
 ## Install Dependencies
 
--Requires python 3.12+ version and Then install required packages:
--pip install -r requirements.txt
+- Requires python 3.12+ version and Then install required packages:
+- pip install -r requirements.txt
 
 ### Set Up MariaDB
 
