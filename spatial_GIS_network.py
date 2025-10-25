@@ -210,26 +210,25 @@ create_airports_table()
 col1, col2 = st.columns([2, 1])
 
 # Left column: Data load 
-with col1:
-"""    st.header("Load Airport Data")
-    uploaded = st.file_uploader("Upload Airports CSV or TSV", type=["csv", "tsv"])
-    if uploaded:
-        text = uploaded.getvalue().decode("utf-8")
-        bulk_insert_from_csv(text)"""
+col1, col2 = st.columns(2)
 
-    st.divider()
+with col1:
+    st.header("Manage Airport Data")
+
     st.subheader("Insert Single Airport ✈️ ")
     with st.form("single_insert"):
         s_airport_id = st.number_input("Airport ID", value=1001)
         s_name = st.text_input("Name", value="")
         s_city = st.text_input("City", value="")
         s_country = st.text_input("Country", value="")
-        s_lat = st.number_input("Latitude",format="%.6f")
+        s_lat = st.number_input("Latitude", format="%.6f")
         s_lon = st.number_input("Longitude", format="%.6f")
+
         submitted = st.form_submit_button("Insert Airport")
         if submitted:
             insert_airport(s_airport_id, s_name, s_city, s_country, s_lat, s_lon)
-            st.success(f"Inserted {s_name}")
+            st.success(f"✅ Inserted {s_name} successfully!")
+
 
 # Right column: Explore spatial query 
 with col2:
@@ -273,6 +272,7 @@ with col2:
 # -------------------------------
 st.markdown("---")
 st.markdown("**Author** — ARAVIND R S , Presented For MariaDB hackathon")
+
 
 
 
