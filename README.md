@@ -7,7 +7,7 @@ An interactive web application that lets users **upload airport datasets**, **in
 
 ##  Features Of The web application 
 
--  **CSV Upload:** Import airport data easily.
+-  **CSV Upload:** Import airport data easily. ( This feature is provided only on localhost ( spatial_GIS.py file)
 -  **Interactive Map:** Visualize airports and flight routes dynamically.
 -  **Nearby Airports Search:** Find airports within a specific radius from an origin airport.
 -  **MariaDB Spatial Queries:** Utilizes `POINT`, `SPATIAL INDEX`, and `ST_Distance_Sphere()` for fast geospatial calculations.
@@ -53,7 +53,7 @@ These features ensure **fast, accurate, and scalable geospatial operations** dir
 
 #### If hosting in skysql (Online) :
 - Create a SkySQL account and set up a database service.
-- Create the airports table with the structure as defined in source code and load the airport dataset.
+- Create the airports table with the structure as defined in source code and load the airport dataset. ( loading the table is mandatory here , i removed the feature csv file upload in web app as it uses many resources)
 - Create a Streamlit Cloud account to host the web app online.
 - Use the spatial_GIS_network.py code and update the connection credentials to your SkySQL database.
 - Deploy the Streamlit app via Streamlit Cloud for online access. 
