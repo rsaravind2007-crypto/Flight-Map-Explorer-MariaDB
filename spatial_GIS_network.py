@@ -83,63 +83,7 @@ def insert_airport(airport_id, name, city, country, lat, lon):
     cursor.close()
     conn.close()
 
-# --------------------------------------------
-#            insert from CSV
-# -------------------------------------------------
 
-"""def bulk_insert_from_csv(uploaded_file):
-    try:
-       
-        if hasattr(uploaded_file, "getvalue"):
-            csv_text = uploaded_file.getvalue().decode("utf-8")
-        else:
-            csv_text = uploaded_file 
-        
-        df = pd.read_csv(
-            StringIO(csv_text),
-            header=None,
-            sep=None,           
-            engine="python",
-            quotechar='"',
-            on_bad_lines="skip"  
-        )
-
-        conn = create_connection()
-        cursor = conn.cursor()
-        inserted = 0
-
-        for _, row in df.iterrows():
-            try:
-                airport_id = int(row[0])
-                name = str(row[1])
-                city = str(row[2])
-                country = str(row[3])
-                lat = float(row[6])
-                lon = float(row[7])
-                point_wkt = f"POINT({lon} {lat})"
-
-                try:
-                    cursor.execute("""
-                        INSERT INTO airports (airport_id, name, city, country, latitude, longitude, location)
-                        VALUES (%s, %s, %s, %s, %s, %s, ST_GeomFromText(%s, 4326))
-                    """, (airport_id, name, city, country, lat, lon, point_wkt))
-                except mysql.connector.Error:
-                    cursor.execute("""
-                        INSERT INTO airports (airport_id, name, city, country, latitude, longitude, location)
-                        VALUES (%s, %s, %s, %s, %s, %s, ST_GeomFromText(%s))
-                    """, (airport_id, name, city, country, lat, lon, point_wkt))
-                
-                inserted += 1
-            except Exception:
-                continue
-
-        conn.commit()
-        cursor.close()
-        conn.close()
-        st.success(f"✅ Inserted {inserted} airports successfully!")
-
-    except Exception as e:
-        st.error(f"❌ Error processing CSV: {e}")  This function is removed because it was very slow and cosumes lot of memory to upload a table via website """
 
 # -------------------------------
 #  Spatial Query For Nearby Airports
@@ -272,6 +216,7 @@ with col2:
 # -------------------------------
 st.markdown("---")
 st.markdown("**Author** — ARAVIND R S , Presented For MariaDB hackathon")
+
 
 
 
