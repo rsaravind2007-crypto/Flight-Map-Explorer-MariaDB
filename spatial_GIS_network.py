@@ -91,30 +91,33 @@ from io import StringIO
 import streamlit as st
 import mysql.connector
 
+import pandas as pd
+import mysql.connector
+from io import StringIO
+import streamlit as st
+
 def bulk_insert_from_csv(uploaded_file):
-    if uploaded_file is None:
-        st.warning("⚠️ Please upload a CSV file.")
-        return
-
     try:
-        # Convert file bytes → text (decode UTF-8)
-        csv_text = uploaded_file.getvalue().decode("utf-8")
-
-        # Read CSV using pandas
+        # ✅ Step 1: Read the uploaded file correctly
+        if hasattr(uploaded_file, "getvalue"):
+            csv_text = uploaded_file.getvalue().decode("utf-8")
+        else:
+            csv_text = uploaded_file  # already a string
+        
         df = pd.read_csv(
             StringIO(csv_text),
             header=None,
             sep=None,           # auto-detect delimiter
             engine="python",
             quotechar='"',
-            on_bad_lines="skip"
+            on_bad_lines="skip"  # skip malformed rows
         )
 
         conn = create_connection()
         cursor = conn.cursor()
         inserted = 0
 
-        for idx, row in df.iterrows():
+        for _, row in df.iterrows():
             try:
                 airport_id = int(row[0])
                 name = str(row[1])
@@ -122,7 +125,6 @@ def bulk_insert_from_csv(uploaded_file):
                 country = str(row[3])
                 lat = float(row[6])
                 lon = float(row[7])
-
                 point_wkt = f"POINT({lon} {lat})"
 
                 try:
@@ -135,16 +137,14 @@ def bulk_insert_from_csv(uploaded_file):
                         INSERT INTO airports (airport_id, name, city, country, latitude, longitude, location)
                         VALUES (%s, %s, %s, %s, %s, %s, ST_GeomFromText(%s))
                     """, (airport_id, name, city, country, lat, lon, point_wkt))
-
+                
                 inserted += 1
-
             except Exception:
                 continue
 
         conn.commit()
         cursor.close()
         conn.close()
-
         st.success(f"✅ Inserted {inserted} airports successfully!")
 
     except Exception as e:
@@ -282,5 +282,6 @@ with col2:
 # -------------------------------
 st.markdown("---")
 st.markdown("**Author** — ARAVIND R S , Presented For MariaDB hackathon")
+
 
 
