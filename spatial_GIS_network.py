@@ -86,31 +86,22 @@ def insert_airport(airport_id, name, city, country, lat, lon):
 # --------------------------------------------
 #            insert from CSV
 # -------------------------------------------------
-import pandas as pd
-from io import StringIO
-import streamlit as st
-import mysql.connector
 
-import pandas as pd
-import mysql.connector
-from io import StringIO
-import streamlit as st
-
-def bulk_insert_from_csv(uploaded_file):
+"""def bulk_insert_from_csv(uploaded_file):
     try:
-        # ✅ Step 1: Read the uploaded file correctly
+       
         if hasattr(uploaded_file, "getvalue"):
             csv_text = uploaded_file.getvalue().decode("utf-8")
         else:
-            csv_text = uploaded_file  # already a string
+            csv_text = uploaded_file 
         
         df = pd.read_csv(
             StringIO(csv_text),
             header=None,
-            sep=None,           # auto-detect delimiter
+            sep=None,           
             engine="python",
             quotechar='"',
-            on_bad_lines="skip"  # skip malformed rows
+            on_bad_lines="skip"  
         )
 
         conn = create_connection()
@@ -148,7 +139,7 @@ def bulk_insert_from_csv(uploaded_file):
         st.success(f"✅ Inserted {inserted} airports successfully!")
 
     except Exception as e:
-        st.error(f"❌ Error processing CSV: {e}")
+        st.error(f"❌ Error processing CSV: {e}")  This function is removed because it was very slow and cosumes lot of memory to upload a table via website """
 
 # -------------------------------
 #  Spatial Query For Nearby Airports
@@ -220,11 +211,11 @@ col1, col2 = st.columns([2, 1])
 
 # Left column: Data load 
 with col1:
-    st.header("Load Airport Data")
+"""    st.header("Load Airport Data")
     uploaded = st.file_uploader("Upload Airports CSV or TSV", type=["csv", "tsv"])
     if uploaded:
         text = uploaded.getvalue().decode("utf-8")
-        bulk_insert_from_csv(text)
+        bulk_insert_from_csv(text)"""
 
     st.divider()
     st.subheader("Insert Single Airport ✈️ ")
