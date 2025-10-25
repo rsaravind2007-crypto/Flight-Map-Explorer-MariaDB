@@ -86,49 +86,69 @@ def insert_airport(airport_id, name, city, country, lat, lon):
 # --------------------------------------------
 #            insert from CSV
 # -------------------------------------------------
-def bulk_insert_from_csv(csv_text):
-    df = pd.read_csv(
-        StringIO(csv_text),
-        header=None,
-        sep=None,           # auto-detect delimiter
-        engine="python",
-        quotechar='"',
-        on_bad_lines="skip"  # skip malformed rows
-    )
+import pandas as pd
+from io import StringIO
+import streamlit as st
+import mysql.connector
 
-    conn = create_connection()
-    cursor = conn.cursor()
-    inserted = 0
+def bulk_insert_from_csv(uploaded_file):
+    if uploaded_file is None:
+        st.warning("⚠️ Please upload a CSV file.")
+        return
 
-    for idx, row in df.iterrows():
-        try:
-            
-            airport_id = int(row[0])
-            name = str(row[1])
-            city = str(row[2])
-            country = str(row[3])
-            lat = float(row[6])
-            lon = float(row[7])
+    try:
+        # Convert file bytes → text (decode UTF-8)
+        csv_text = uploaded_file.getvalue().decode("utf-8")
 
-            point_wkt = f"POINT({lon} {lat})"
+        # Read CSV using pandas
+        df = pd.read_csv(
+            StringIO(csv_text),
+            header=None,
+            sep=None,           # auto-detect delimiter
+            engine="python",
+            quotechar='"',
+            on_bad_lines="skip"
+        )
+
+        conn = create_connection()
+        cursor = conn.cursor()
+        inserted = 0
+
+        for idx, row in df.iterrows():
             try:
-                cursor.execute("""
-                    INSERT INTO airports (airport_id, name, city, country, latitude, longitude, location)
-                    VALUES (%s, %s, %s, %s, %s, %s, ST_GeomFromText(%s, 4326))
-                """, (airport_id, name, city, country, lat, lon, point_wkt))
-            except mysql.connector.Error:
-                cursor.execute("""
-                    INSERT INTO airports (airport_id, name, city, country, latitude, longitude, location)
-                    VALUES (%s, %s, %s, %s, %s, %s, ST_GeomFromText(%s))
-                """, (airport_id, name, city, country, lat, lon, point_wkt))
-            inserted += 1
-        except Exception:
-            continue
+                airport_id = int(row[0])
+                name = str(row[1])
+                city = str(row[2])
+                country = str(row[3])
+                lat = float(row[6])
+                lon = float(row[7])
 
-    conn.commit()
-    cursor.close()
-    conn.close()
-    st.success(f"✅ Inserted {inserted} airports successfully!")
+                point_wkt = f"POINT({lon} {lat})"
+
+                try:
+                    cursor.execute("""
+                        INSERT INTO airports (airport_id, name, city, country, latitude, longitude, location)
+                        VALUES (%s, %s, %s, %s, %s, %s, ST_GeomFromText(%s, 4326))
+                    """, (airport_id, name, city, country, lat, lon, point_wkt))
+                except mysql.connector.Error:
+                    cursor.execute("""
+                        INSERT INTO airports (airport_id, name, city, country, latitude, longitude, location)
+                        VALUES (%s, %s, %s, %s, %s, %s, ST_GeomFromText(%s))
+                    """, (airport_id, name, city, country, lat, lon, point_wkt))
+
+                inserted += 1
+
+            except Exception:
+                continue
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        st.success(f"✅ Inserted {inserted} airports successfully!")
+
+    except Exception as e:
+        st.error(f"❌ Error processing CSV: {e}")
 
 # -------------------------------
 #  Spatial Query For Nearby Airports
@@ -262,4 +282,5 @@ with col2:
 # -------------------------------
 st.markdown("---")
 st.markdown("**Author** — ARAVIND R S , Presented For MariaDB hackathon")
+
 
