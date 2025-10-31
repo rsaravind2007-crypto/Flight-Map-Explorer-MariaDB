@@ -59,6 +59,6 @@ These features ensure **fast, accurate, and scalable geospatial operations** dir
 - Deploy the Streamlit app via Streamlit Cloud for online access. 
 ---
 ### I have deployed the project using SkySQL’s free tier. The website is currently working fine as of October 30, 2025, but I am not certain whether it will remain active during the evaluation period.
-### website link : 
+### website link : https://flight-map-explorer-mariadb-47ilaux4ne7r2ycjrzb5p5.streamlit.app/
 
 ## Author : ARAVIND R S
