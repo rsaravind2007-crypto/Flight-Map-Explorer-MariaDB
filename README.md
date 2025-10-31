@@ -58,5 +58,7 @@ These features ensure **fast, accurate, and scalable geospatial operations** dir
 - Use the spatial_GIS_network.py code and update the connection credentials to your SkySQL database.
 - Deploy the Streamlit app via Streamlit Cloud for online access. 
 ---
+### I have deployed the project using SkySQL’s free tier. The website is currently working fine as of October 30, 2025, but I am not certain whether it will remain active during the evaluation period.
+### website link : 
 
 ## Author : ARAVIND R S
